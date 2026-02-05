@@ -18,12 +18,16 @@ public class App {
 		Thread consumer1 = new Thread(new ConsumerWithBuffer(buffer), "Consumer-1");
 		Thread consumer2 = new Thread(new ConsumerWithBuffer(buffer), "Consumer-2");
 
+		// Потоки удаляющие
+		Thread deleter = new Thread(new DeleterWithBuffer(buffer), "Deleter");
+
 		// Запускаем все потоки
 		producer1.start();
 		producer2.start();
 		producer3.start();
 		consumer1.start();
 		consumer2.start();
+		deleter.start();
 
 		// Ждём 2 секунды
 		Thread.sleep(2000);
@@ -34,8 +38,8 @@ public class App {
 		producer3.interrupt();
 		consumer1.interrupt();
 		consumer2.interrupt();
+		deleter.interrupt();
 
 		System.out.println("Работа завершена!");
 	}
-
 }
